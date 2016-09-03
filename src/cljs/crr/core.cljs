@@ -10,14 +10,26 @@
   (fn [db _]
     (merge db initial-state)))
 
+(defn update-name [db [_ new-name]] ; re-frame examples use anonymous functions. Using a named function allows for easier testing.
+  (merge db {:name new-name}))
+
+(rf/reg-event-db
+  :name-changed
+  update-name)
+
 (rf/reg-sub
   :name
   (fn [db arg]
     (println "pirate sayz " arg) ; you should see the subscription vector in the console
     (:name db)))
 
+(defn change-name [evt]
+  (rf/dispatch-sync [:name-changed (-> evt .-target .-value)]))
+
 (defn hello-world [name] ; accept name as a parameter
-  [:h1 "Hello " name]) ; instead of JSX, Reagent uses Hiccup which are simply nested vectors.
+  [:div
+    [:input {:type :text :on-change change-name :value name}]
+    [:h1 "Hello " name]]) ; instead of JSX, Reagent uses Hiccup which are simply nested vectors.
 
 (defn hello-world-container []
   ;; our container
