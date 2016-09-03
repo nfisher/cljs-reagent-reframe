@@ -6,7 +6,7 @@
 
 (defn hello-world-container []
   ;; our container
-  (let [name "World 3"]
+  (let [name "World 4"]
     (fn []
       [hello-world name])))
 
