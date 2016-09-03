@@ -1,0 +1,9 @@
+# Mac finder
+.DS_Store
+# trampoline files
+/*-init.clj
+# VIM swap files
+*.sw?
+# generated files
+/target
+/resources/public/js
