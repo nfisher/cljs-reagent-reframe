@@ -10,14 +10,20 @@
   (fn [db _]
     (merge db initial-state)))
 
+(rf/reg-sub
+  :name
+  (fn [db arg]
+    (println "pirate sayz " arg) ; you should see the subscription vector in the console
+    (:name db)))
+
 (defn hello-world [name] ; accept name as a parameter
   [:h1 "Hello " name]) ; instead of JSX, Reagent uses Hiccup which are simply nested vectors.
 
 (defn hello-world-container []
   ;; our container
-  (let [name "World 4"]
+  (let [name (rf/subscribe [:name])] ; the subscribe takes a vector allowing subscription to a deeply nested value in app-db.
     (fn []
-      [hello-world name])))
+      [hello-world @name]))) ; note we're de-referencing the atom here
 
 (defn ^:export run
   []
